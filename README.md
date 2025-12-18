@@ -45,68 +45,72 @@ The system operates on three core principles:
 
 
 ---
-
 ## 🧪 Stress Test Suite
 
-The repository includes a benchmark suite (`comparisons.py`) specifically engineered to target weaknesses in LLM tokenization and state tracking.
+The repository includes a benchmark suite (`comparisons.py`) specifically engineered to target inherent weaknesses in LLM tokenization and state tracking. These tests are designed to fail standard models.
 
-### 1. The Winter Lipogram (Token Blindness)
-Forces the model to perform character-level filtering, which contradicts standard BPE tokenization.
-> **Prompt:** "Write a 3-sentence description of a snowy winter scene. HARD CONSTRAINT: You are **STRICTLY FORBIDDEN** from using the letter 'a' (case-insensitive)..."
+| Test | Objective | Why It Breaks LLMs |
+| :--- | :--- | :--- |
+| **1. The Winter Lipogram** | **Negative Constraints** | Forces character-level filtering, which contradicts standard BPE (Byte Pair Encoding) tokenization where tokens often span multiple characters. |
+| **2. The Shiritori Chain** | **Recursive State** | Requires looking back at the *previous* output's last character while planning the *next* word's length (< 5 chars). High cognitive load. |
+| **3. Branchless Code** | **Algorithmic Logic** | Prohibits standard control flow (`if`/`else`), forcing the model to translate boolean logic into pure arithmetic operations. |
 
-### 2. The Shiritori Chain (Recursive State)
-A high-difficulty constraint combining state tracking (last letter = first letter) with a restrictive length limit.
-> **Prompt:** "Write a coherent sentence of exactly 7 words... Last Letter of Word N must be the First Letter of Word N+1... HARD CONSTRAINTS: No word can exceed 5 letters in length."
+### ⚡ Performance Note: "Thinking Takes Time"
 
-### 3. Branchless Code (Algorithmic Logic)
-Requires translating boolean logic into arithmetic, prohibiting standard control flow.
-> **Prompt:** "Write a Python function... HARD CONSTRAINTS: 100% BRANCHLESS. NO `if`, `else`, `while`... NO `min()`, `max()`, or `abs()`..."
+**ThinkTwice is NOT optimized for speed.** The system enters a recursive audit loop that may reject and regenerate thoughts dozens of times per query. Consequently, generation is significantly slower than standard LLM streaming. This latency is a feature, not a bug: it is the inherent cost of moving from System 1 (instinct) to System 2 (reasoning).
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-* Python 3.9+
-* API Key Of Open Router / OpenAI / Locale (Not Recomended)
+* **Python 3.9+**
+* **API Access:** OpenRouter (Recommended for access to DeepSeek/Claude), OpenAI, or Local Inference (Ollama/LM Studio - *Note: Local models may have difficulty with strict instructions.*).
 
 ### Installation
 
 ```bash
-git clone https://github.com/zAGloth/thinktwice.git
+git clone [https://github.com/zAGloth/thinktwice.git](https://github.com/zAGloth/thinktwice.git)
 cd thinktwice
 pip install -r requirements.txt
-
 ```
 
 ### Configuration
+Copy the template configuration file:
 
-Rename `config_example.py` to `config.py` and set your API keys.
+```bash
+cp config.template.py config.py
+```
+Edit config.py with your credentials. The system supports distinct providers for Generating and Auditing (e.g., a smart generator and a fast auditor).
+
 
 ```python
+
 # config.py
-API_KEY = "
-.."  # Your primary reasoning model
+
+# Provider Configuration (OpenRouter, OpenAI, etc.)
+API_BASE_URL = "[https://openrouter.ai/api/v1](https://openrouter.ai/api/v1)"
+API_KEY = "sk-..."
+
+# Model Selection
+GENERATOR_MODEL = "deepseek/deepseek-chat" # Logic Heavy
+AUDITOR_MODEL = "anthropic/claude-3-haiku" # Speed Heavy
 ```
 
 ### Usage
+1. Benchmark Mode (Head-to-Head) Run the stress suite to generate side-by-side markdown reports comparing Raw vs DeepThink vs ThinkTwice.
 
-**1. Run the Benchmarks**
-Compare the raw model output vs. the ThinkTwice engine.
 
-```bash
+```python
 python comparisons.py
-
 ```
 
-**2. Interactive Chat**
-Test the system with your own constraints.
+#### Results are saved to /outputs/YYYY-MM-DD_HH-MM-SS/
+2. Interactive Chat (Debug Mode) Test the system with your own constraints and watch the Takeover mechanism in real-time.
 
-```bash
+```python
 python chat.py
-
 ```
-
 ---
 
 ## 🤝 Contributing
@@ -118,3 +122,12 @@ We are exploring the limits of reliable LLM orchestration. If you have ideas for
 ## 📄 License
 
 This project is licensed under the **Apache 2.0 License**. See the [LICENSE](/LICENSE) file for details.
+
+---
+
+## 🔮 Roadmap
+
+Although our current priority is absolute logical integrity, we are exploring future iterations focused on performance:
+
+* **ThinkTwice Lite:** a low-latency variant designed for High-throughput applications
+* ***play** around more with conversions* 😈
