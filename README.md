@@ -21,7 +21,7 @@ Standard LLMs prioritize fluency over correctness. When a model realizes it has 
 
 ## 🏗️ Architecture
 
-![Architecture Diagram](./architecture.svg)
+![Architecture Diagram](/Multimedia/Diagram.svg)
 
 The system operates on three core principles:
 
@@ -35,8 +35,10 @@ The system operates on three core principles:
 
 ## 🎥 Proof of Concept
 
-![ThinkTwice Logic Demo](./examples/demo.gif)
-*Above: The system attempting a Branchless Programming task. **Magenta blocks** indicate where the Auditor intercepted a logic error and forced a course correction in real-time.*
+![ThinkTwice Logic Demo](/Multimedia/ThinkTwice.gif)
+### Color Legend
+![Color Legend](/Multimedia/Color_Legend.png)
+
 
 ---
 
