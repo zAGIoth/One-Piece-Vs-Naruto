@@ -70,7 +70,7 @@ The repository includes a benchmark suite (`comparisons.py`) specifically engine
 ### Installation
 
 ```bash
-git clone [https://github.com/zAGloth/thinktwice.git](https://github.com/zAGloth/thinktwice.git)
+git clone https://github.com/zAGloth/thinktwice.git
 cd thinktwice
 pip install -r requirements.txt
 ```
