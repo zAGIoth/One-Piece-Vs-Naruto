@@ -37,7 +37,11 @@ The system operates on three core principles:
 
 ![ThinkTwice Logic Demo](/Multimedia/ThinkTwice.gif)
 ### Color Legend
-![Color Legend](/Multimedia/Color_Legend.png)
+  🟦 Blue: Generated Text (Streaming)  
+  🟨 Yellow: Audit in Progress  
+  🟩 Green: Validated Idea (OK)  
+  🟪 Magenta: Takeover (Correction)  
+  🟥 Red: Error Detected  
 
 
 ---
